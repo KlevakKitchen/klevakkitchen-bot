@@ -33,9 +33,9 @@ def handle_start(message):
     bot.send_message(
         message.chat.id,
         "Привет! 👋 Добро пожаловать в KlevakKitchen!\n\n"
-"Здесь я делюсь своими любимыми рецептами в формате книг.\n"
-"Каждая книга — это проверенные блюда с пошаговыми инструкциями.\n\n"
-"Что бы вы хотели приготовить? Выбирайте книгу:",
+        "Здесь я делюсь своими любимыми рецептами в формате книг.\n"
+        "Каждая книга — это проверенные блюда с пошаговыми инструкциями.\n\n"
+        "Что бы вы хотели приготовить? Выбирайте книгу:",
         reply_markup=books_keyboard(BOOKS)
     )
 
@@ -44,20 +44,20 @@ def handle_start(message):
 def handle_book_choice(call):
     book_key = call.data.replace("book_", "")
     book = BOOKS.get(book_key)
-    
+
     if not book:
         bot.answer_callback_query(call.id, "Книга не найдена")
         return
-    
+
     bot.answer_callback_query(call.id)
-    
+
     # Показываем описание и кнопку покупки
     text = (
         f"📖 *{book['title']}*\n\n"
         f"{book['description']}\n\n"
         f"Цена: {book['price']} ⭐ (Telegram Stars)"
     )
-    
+
     bot.send_message(
         call.message.chat.id,
         text,
@@ -70,13 +70,13 @@ def handle_book_choice(call):
 def handle_buy(call):
     book_key = call.data.replace("buy_", "")
     book = BOOKS.get(book_key)
-    
+
     if not book:
         bot.answer_callback_query(call.id, "Книга не найдена")
         return
-    
+
     prices = [types.LabeledPrice(label="XTR", amount=book['price'])]
-    
+
     bot.send_invoice(
         call.message.chat.id,
         title=book['title'],
@@ -85,7 +85,7 @@ def handle_buy(call):
         provider_token="",
         currency="XTR",
         prices=prices,
-        reply_markup=payment_keyboard(book_key)
+        reply_markup=invoice_keyboard()
     )
 
 # ============ ПРОВЕРКА ПЛАТЕЖА ============
@@ -100,25 +100,25 @@ def handle_successful_payment(message):
     payment_id = message.successful_payment.provider_payment_charge_id
     amount = message.successful_payment.total_amount
     currency = message.successful_payment.currency
-    
+
     # Определяем, какую книгу купили
     payload = message.successful_payment.invoice_payload
     book_key = payload.replace("book_purchase_", "")
     book = BOOKS.get(book_key)
-    
+
     # Сохраняем информацию о платеже в базу данных
     save_payment(user_id, payment_id, amount, currency)
-    
+
     # Отправляем сообщение о покупке
     bot.send_message(
         message.chat.id,
         "✅ Платеж принят, пожалуйста, ожидайте книгу. Она скоро придёт!"
     )
-    
+
     if not book:
         bot.send_message(message.chat.id, "Извините, книга не найдена.")
         return
-    
+
     # Отправляем PDF-файл
     file_path = book['file']
     if os.path.exists(file_path):
