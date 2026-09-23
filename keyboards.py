@@ -1,7 +1,7 @@
 from telebot import types
 
 
-# Функция для создания клавиатуры с кнопкой "Купить" (обычная кнопка)
+# Кнопка "Купить" для сообщения с описанием (обычная кнопка)
 def payment_keyboard(book_key=None):
     keyboard = types.InlineKeyboardMarkup()
     if book_key:
@@ -13,7 +13,18 @@ def payment_keyboard(book_key=None):
     return keyboard
 
 
-# Функция для создания клавиатуры со списком книг
+# Кнопка оплаты для СЧЁТА (pay=True) — нужна только внутри send_invoice
+def invoice_keyboard():
+    keyboard = types.InlineKeyboardMarkup()
+    button = types.InlineKeyboardButton(
+        text="Оплатить 1 ⭐",
+        pay=True
+    )
+    keyboard.add(button)
+    return keyboard
+
+
+# Список книг
 def books_keyboard(books):
     keyboard = types.InlineKeyboardMarkup()
     for book_key, book in books.items():
@@ -25,7 +36,7 @@ def books_keyboard(books):
     return keyboard
 
 
-# Функция для стартовой клавиатуры
+# Стартовая клавиатура
 def start_keyboard():
     keyboard = types.InlineKeyboardMarkup()
     button = types.InlineKeyboardButton(
