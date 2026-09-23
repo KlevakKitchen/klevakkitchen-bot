@@ -1,2 +1,5 @@
 pyTelegramBotAPI==4.22.1
 python-dotenv==1.2.2
+pyTelegramBotAPI
+python-dotenv
+flask
