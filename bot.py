@@ -1,4 +1,4 @@
-from keyboards import start_keyboard, payment_keyboard, books_keyboard
+from keyboards import start_keyboard, payment_keyboard, books_keyboard, invoice_keyboard
 from db import init_db, save_payment, get_photo_id
 from config import TOKEN
 import telebot
@@ -62,7 +62,7 @@ def handle_book_choice(call):
         call.message.chat.id,
         text,
         parse_mode="Markdown",
-        reply_markup=payment_keyboard(book_key)
+        reply_markup=invoice_keyboard()
     )
 
 # ============ ОБРАБОТЧИК КНОПКИ "КУПИТЬ" ============
