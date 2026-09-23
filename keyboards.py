@@ -6,7 +6,7 @@ def payment_keyboard(book_key=None):
     keyboard = types.InlineKeyboardMarkup()
     if book_key:
         button = types.InlineKeyboardButton(
-            text="💳 Купить книгу за 1 ⭐",
+            text="💳 Купить за 1 ⭐",
             callback_data=f"buy_{book_key}"
         )
         keyboard.add(button)
