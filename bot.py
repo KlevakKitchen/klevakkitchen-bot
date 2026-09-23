@@ -62,7 +62,7 @@ def handle_book_choice(call):
         call.message.chat.id,
         text,
         parse_mode="Markdown",
-        reply_markup=invoice_keyboard()
+        reply_markup=payment_keyboard(book_key)
     )
 
 # ============ ОБРАБОТЧИК КНОПКИ "КУПИТЬ" ============
