@@ -15,8 +15,8 @@ BOOKS = {
     "uzhiny": {
         "title": "Книга 1. Что приготовить на ужин?",
         "description": "50 рецептов для уютных вечеров",
-        "file": "KlevakKitchen_Uzhiny.pdf",
-        "price": 350,  # цена в XTR (звёздах)
+        "file": "KlevakKitchen_1.pdf",
+        "price": 1,  # цена в XTR (звёздах)
     },
     # Сюда можно добавить следующие книги:
     # "zavtraki": {
